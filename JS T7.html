@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Train Animation</title>
+<style>
+body {
+  background-color: white;
+  text-align: center;
+}
+canvas {
+  border: 1px solid black;
+}
+</style>
+</head>
+<body>
+
+<canvas id="trainCanvas" width="400" height="200"></canvas><br>
+Click the following buttons to handle animation<br>
+<button onclick="startAnimation()">Start</button>
+<button onclick="stopAnimation()">Stop</button>
+
+<script>
+const canvas = document.getElementById('trainCanvas');
+const ctx = canvas.getContext('2d');
+let trainX = 0; // Initial position of the train
+let animationId;
+
+// Function to draw the train (replace with your train image or drawing)
+function drawTrain() {
+  ctx.fillStyle = 'green';
+  ctx.fillRect(trainX, 100, 50, 30); // Simple green rectangle as train
+  // Add more details to draw a better train
+}
+
+function animateTrain() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
+  drawTrain();
+  trainX += 5; // Move the train to the right
+  if (trainX > canvas.width) {
+    trainX = -50; // Reset train position to the left
+  }
+  animationId = requestAnimationFrame(animateTrain);
+}
+
+function startAnimation() {
+  if (!animationId) { // Only start if not already running
+      animateTrain();
+  }
+}
+
+function stopAnimation() {
+  if (animationId) {
+    cancelAnimationFrame(animationId);
+    animationId = null;
+  }
+}
+
+// Initial drawing
+drawTrain(); 
+</script>
+
+</body>
+</html>

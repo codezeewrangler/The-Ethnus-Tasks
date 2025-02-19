@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Show Date and Time</title>
+<style>
+  body {
+    font-family: sans-serif;
+  }
+  button {
+    padding: 8px 15px;
+    margin-bottom: 10px;
+  }
+  #date, #time {
+    margin-top: 5px;
+  }
+</style>
+</head>
+<body>
+
+  <button onclick="showDate()">show date</button>
+  <div id="date"></div>
+
+  <button onclick="showTime()">show Time</button>
+  <div id="time"></div>
+
+  <script>
+    function showDate() {
+      const currentDate = new Date();
+      const formattedDate = formatDate(currentDate); // See helper function below
+      document.getElementById("date").textContent = formattedDate;
+    }
+
+    function showTime() {
+      const currentTime = new Date();
+      const formattedTime = currentTime.toLocaleString(); // Use toLocaleString() for time
+      document.getElementById("time").textContent = formattedTime;
+    }
+
+    // Helper function to format the date (optional, but cleaner)
+    function formatDate(date) {
+      const options = { year: 'numeric', month: 'long', day: 'numeric' };
+      return date.toLocaleDateString(undefined, options);
+    }
+  </script>
+
+</body>
+</html>

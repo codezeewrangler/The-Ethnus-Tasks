@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Basic Form</title>
+    <style>
+        body {
+            font-family: sans-serif;
+        }
+        label {
+            display: inline-block;
+            width: 80px; /* Adjust as needed */
+            vertical-align: top; /* Align labels to the top of inputs */
+        }
+        input[type="text"],
+        input[type="email"],
+        textarea {
+            width: 200px; /* Adjust as needed */
+            padding: 5px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+        }
+        textarea {
+            height: 100px; /* Adjust as needed */
+        }
+        .error {
+            color: red;
+            margin-left: 10px; /* Space between input and error */
+            display: inline-block; /* So it's on the same line */
+        }
+        input[type="submit"] {
+            padding: 8px 15px;
+            background-color: #4CAF50; /* Green */
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Contact Us</h1>
+
+    <form action="#" method="post">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+        <span class="error" id="nameError"></span><br><br>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+        <span class="error" id="emailError"></span><br><br>
+
+        <label for="website">Website:</label>
+        <input type="text" id="website" name="website">
+        <span class="error" id="websiteError"></span><br><br>
+
+        <label for="message">Message:</label>
+        <textarea id="message" name="message" required></textarea>
+        <span class="error" id="messageError"></span><br><br>
+
+        <input type="submit" value="Submit">
+    </form>
+
+    <script>
+        const form = document.querySelector('form');
+
+        form.addEventListener('submit', (event) => {
+            let isValid = true;
+
+            // Name validation
+            const nameInput = document.getElementById('name');
+            const nameError = document.getElementById('nameError');
+            if (nameInput.value.trim() === "") {
+                nameError.textContent = "This field is required";
+                isValid = false;
+            } else {
+                nameError.textContent = "";
+            }
+
+            // Email validation (basic - you might want a more robust regex)
+            const emailInput = document.getElementById('email');
+            const emailError = document.getElementById('emailError');
+            if (emailInput.value.trim() === "") {
+                emailError.textContent = "This field is required"; // Changed to "required"
+                isValid = false;
+            } else if (!isValidEmail(emailInput.value)) { // Basic email validation
+                emailError.textContent = "A valid email address is required";
+                isValid = false;
+            } else {
+                emailError.textContent = "";
+            }
+
+            // Website validation (basic URL check)
+            const websiteInput = document.getElementById('website');
+            const websiteError = document.getElementById('websiteError');
+            if (websiteInput.value.trim() !== "" && !isValidUrl(websiteInput.value)) {
+                websiteError.textContent = "A valid url is required";
+                isValid = false;
+            } else {
+                websiteError.textContent = "";
+            }
+
+            const messageInput = document.getElementById('message');
+            const messageError = document.getElementById('messageError');
+            if (messageInput.value.trim() === "") {
+                messageError.textContent = "This field is required";
+                isValid = false;
+            } else {
+                messageError.textContent = "";
+            }
+
+            if (!isValid) {
+                event.preventDefault(); // Prevent form submission
+            }
+        });
+
+        function isValidEmail(email) {
+            // Basic email validation using a regular expression
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+
+        function isValidUrl(url) {
+          try {
+            new URL(url);
+            return true;
+          } catch (_) {
+            return false;
+          }
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Registration and Display</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            padding: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>User Registration and Display System</h1>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <h2>Register</h2>
+                <form id="registrationForm">
+                    <div class="form-group">
+                        <label for="name">Name:</label>
+                        <input type="text" class="form-control" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" class="form-control" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="contact">Contact:</label>
+                        <input type="tel" class="form-control" id="contact" name="contact" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="address">Address:</label>
+                        <textarea class="form-control" id="address" name="address" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+            <div class="col-md-6">
+                <h2>Registered Users</h2>
+                <table class="table" id="userTable">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Contact</th>
+                            <th>Address</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('registrationForm');
+        const table = document.getElementById('userTable').getElementsByTagName('tbody')[0];
+
+        // Load data from localStorage on page load
+        loadData();
+
+        form.addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const contact = document.getElementById('contact').value;
+            const address = document.getElementById('address').value;
+
+            const user = {
+                name: name,
+                email: email,
+                contact: contact,
+                address: address
+            };
+
+            // Store user data in localStorage
+            let users = JSON.parse(localStorage.getItem('users')) || [];
+            users.push(user);
+            localStorage.setItem('users', JSON.stringify(users));
+
+            // Add user to table
+            addUserToTable(user);
+
+            // Reset the form
+            form.reset();
+        });
+
+        function addUserToTable(user) {
+            const row = table.insertRow();
+            const nameCell = row.insertCell();
+            const emailCell = row.insertCell();
+            const contactCell = row.insertCell();
+            const addressCell = row.insertCell();
+
+            nameCell.textContent = user.name;
+            emailCell.textContent = user.email;
+            contactCell.textContent = user.contact;
+            addressCell.textContent = user.address;
+        }
+
+        function loadData() {
+            let users = JSON.parse(localStorage.getItem('users')) || [];
+            users.forEach(user => {
+                addUserToTable(user);
+            });
+        }
+    </script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>
